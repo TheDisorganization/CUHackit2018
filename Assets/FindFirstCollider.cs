@@ -21,6 +21,7 @@ public class FindFirstCollider : MonoBehaviour {
     void Awake()
     {
         shootableMask = LayerMask.GetMask("Shootable");
+        webLine = GetComponent<LineRenderer>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
     
