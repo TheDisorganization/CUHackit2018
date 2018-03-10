@@ -6,6 +6,10 @@ public class FindFirstCollider : MonoBehaviour {
 
     public float range = 100f;
 
+    public float scalingFactor = 1f;
+
+    public GameObject rayOriginObject;
+
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device Controller
     {
@@ -46,8 +50,15 @@ public class FindFirstCollider : MonoBehaviour {
         webLine.enabled = true;
         webLine.SetPosition(0, transform.position);
 
-        webRay.origin = transform.position;
-        webRay.direction = (transform.forward - [0, -90, 0]);
+        var x = transform.position.x / transform.forward.x;
+
+
+
+        webRay.origin = rayOriginObject.transform.position;
+        //webRay.origin = transform.position+ transform.forward* scalingFactor;
+
+  
+        webRay.direction = -transform.up;
 
         if (Physics.Raycast(webRay, out webHit, range, shootableMask))
         {
