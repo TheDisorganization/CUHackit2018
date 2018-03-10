@@ -61,6 +61,7 @@ public class FindFirstCollider : MonoBehaviour {
 
     public void DisableWebEffects()
     {
+        if(webLine)
         webLine.enabled = false;
     }
 }
