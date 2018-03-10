@@ -21,7 +21,7 @@ public class FindFirstCollider : MonoBehaviour {
     {
         shootableMask = LayerMask.GetMask("Shootable");
         webLine = GetComponent<LineRenderer>();
-        trackedObj = GetComponentInParent<SteamVR_TrackedObject>();
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
     
     // Update is called once per frame
@@ -47,7 +47,7 @@ public class FindFirstCollider : MonoBehaviour {
         webLine.SetPosition(0, transform.position);
 
         webRay.origin = transform.position;
-        webRay.direction = transform.forward;
+        webRay.direction = (transform.forward - [0, -90, 0]);
 
         if (Physics.Raycast(webRay, out webHit, range, shootableMask))
         {
