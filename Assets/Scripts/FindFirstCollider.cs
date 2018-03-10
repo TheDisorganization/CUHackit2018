@@ -37,7 +37,7 @@ public class FindFirstCollider : MonoBehaviour {
         }
         else if(Controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
         {
-            webLine.SetPosition(0, transform.position);
+            webLine.SetPosition(0, rayOriginObject.transform.position);
         }
         else if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
         {
@@ -48,7 +48,7 @@ public class FindFirstCollider : MonoBehaviour {
     void ShootWeb()
     {
         webLine.enabled = true;
-        webLine.SetPosition(0, transform.position);
+        webLine.SetPosition(0, rayOriginObject.transform.position);
 
         var x = transform.position.x / transform.forward.x;
 
