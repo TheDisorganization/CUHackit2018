@@ -22,7 +22,7 @@ public class FindFirstCollider : MonoBehaviour {
     {
         shootableMask = LayerMask.GetMask("Shootable");
         webLine = GetComponent<LineRenderer>();
-        trackedObj = GetComponent<SteamVR_TrackedObject>();
+        trackedObj = GetComponentInParent<SteamVR_TrackedObject>();
     }
     
     // Update is called once per frame
