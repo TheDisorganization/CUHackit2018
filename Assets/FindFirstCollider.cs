@@ -6,7 +6,6 @@ public class FindFirstCollider : MonoBehaviour {
 
     public float range = 100f;
 
-    private bool previousGrip = false;
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device Controller
     {
@@ -28,15 +27,16 @@ public class FindFirstCollider : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-		if(Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip) && !previousGrip)
+		if(Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) //initial press frame
         {
-            previousGrip = true;
             ShootWeb();
         }
-
-        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+        else if(Controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
         {
-            previousGrip = false;
+            webLine.SetPosition(0, transform.position);
+        }
+        else if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+        {
             DisableWebEffects();
         }
 	}
@@ -62,6 +62,6 @@ public class FindFirstCollider : MonoBehaviour {
     public void DisableWebEffects()
     {
         if(webLine)
-        webLine.enabled = false;
+            webLine.enabled = false;
     }
 }
