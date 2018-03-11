@@ -56,6 +56,7 @@ public class Movement : MonoBehaviour
             positionDelta.z = 0f;
             transform.position = NonClimbingPos + positionDelta;
             InstantaneousVelocity = Vector3.zero;
+            InstantaneousVelocity.y = 7f;
         }
         else if (RightController.IsClimbing)
         {
@@ -64,6 +65,7 @@ public class Movement : MonoBehaviour
             positionDelta.z = 0f;
             transform.position = NonClimbingPos + positionDelta;
             InstantaneousVelocity = Vector3.zero;
+            InstantaneousVelocity.y = 7f;
         }
         else
         {
@@ -131,7 +133,7 @@ public class Movement : MonoBehaviour
         //    if (WebLength.magnitude > RightController.ConnectionLength)
         //        transform.position = RightController.ConnectionPoint - WebLength.normalized * RightController.ConnectionLength;
         //}
-
+        preventDecapitation();
         updateColliderPosition();
     }
 
@@ -140,7 +142,7 @@ public class Movement : MonoBehaviour
         InstantaneousVelocity = Vector3.Reflect(InstantaneousVelocity, collision.contacts[0].normal)*BounceDampening;
 
         //might remove this (less elastic collisions)
-        //transform.position += (transform.position - collision.contacts[0].point).normalized * (0.005f);
+        transform.position += (transform.position - collision.contacts[0].point).normalized * (0.05f);
     }
 
     void updateColliderPosition()
@@ -162,6 +164,32 @@ public class Movement : MonoBehaviour
 
         Physics.Raycast(heightRay, out heightHit, float.MaxValue, LayerMask.GetMask("Shootable"));
         return heightHit.distance < 0.5;
+    }
+
+    private void preventDecapitation()
+    {
+        float playerHeight = Head.transform.position.y - transform.position.y; 
+
+        Ray heightRay = new Ray();
+        RaycastHit heightHit;
+
+        heightRay.origin = Head.transform.position;
+
+        heightRay.direction = new Vector3(0f, -1f, 0f);
+
+        bool aboveShootable = Physics.Raycast(heightRay, out heightHit, float.MaxValue, LayerMask.GetMask("Shootable"));
+
+        float exposedPlayerPortion = heightRay.origin.y - heightHit.point.y;
+
+        if ( exposedPlayerPortion < playerHeight)
+        {
+
+            Vector3 pos = transform.position;
+            pos.y += (playerHeight - exposedPlayerPortion);
+            transform.position = pos;
+        }
+
+
     }
 }
 
