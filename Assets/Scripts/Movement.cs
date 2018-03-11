@@ -142,7 +142,7 @@ public class Movement : MonoBehaviour
         InstantaneousVelocity = Vector3.Reflect(InstantaneousVelocity, collision.contacts[0].normal)*BounceDampening;
 
         //might remove this (less elastic collisions)
-        transform.position += (transform.position - collision.contacts[0].point).normalized * (0.05f);
+        transform.position += (transform.position - collision.contacts[0].point).normalized * (0.5f);
     }
 
     void updateColliderPosition()

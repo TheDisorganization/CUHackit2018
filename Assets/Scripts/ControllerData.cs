@@ -103,6 +103,12 @@ public class ControllerData : MonoBehaviour
             //IsGrabbing = false;
             WebLine.enabled = false;
         }
+        else if (IsConnected&&!Controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
+        {
+            IsConnected = false;
+            WebLine.enabled = false;
+        }
+
         //if (IsConnected && Controller.GetHairTrigger())
         //{
         //    GrabWeb();
