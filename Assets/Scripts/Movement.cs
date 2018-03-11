@@ -119,12 +119,15 @@ public class Movement : MonoBehaviour
     public void OnCollision(Collision collision)
     {
         InstantaneousVelocity = Vector3.Reflect(InstantaneousVelocity, collision.contacts[0].normal)*BounceDampening;
+
+        //might remove this (less elastic collisions)
+        transform.position += (transform.position - collision.contacts[0].point).normalized * (0.005f);
     }
 
     void updateColliderPosition()
     {
         Vector3 colliderPos = Head.transform.position;
-        colliderPos.y -= PlayerHeight - 1;
+        colliderPos.y -= PlayerHeight +1;
         PlayerCollider.transform.position = colliderPos;
     }
 
