@@ -49,10 +49,10 @@ public class Movement : MonoBehaviour
     {
         Vector3 NetForce = PlayerMass * GravityAccel;
    
-        if (LeftController.IsConnected && LeftController.TriggerPressed)
+        if (LeftController.IsConnected && !LeftController.TriggerPressed)
             NetForce += (LeftController.ConnectionPoint - LeftController.WebSpoutPoint).normalized * WebPullForce;
 
-        if (RightController.IsConnected && RightController.TriggerPressed)
+        if (RightController.IsConnected && !RightController.TriggerPressed)
             NetForce += (RightController.ConnectionPoint - RightController.WebSpoutPoint).normalized * WebPullForce;
 
         if (playerStanding())
@@ -62,13 +62,18 @@ public class Movement : MonoBehaviour
 
             NetForce += NormalForce;
 
-            //calculate friction
-            Vector3 KineticFrictionForce = NetForce;
-            KineticFrictionForce.y = 0;
-            KineticFrictionForce.Normalize();
-            KineticFrictionForce *= (-1f)*(NormalForce * KineticFrictionCoeff).magnitude ;
 
-            InstantaneousVelocity.y = 0;
+
+            if (!RightController.IsConnected && !LeftController.IsConnected)
+                InstantaneousVelocity = Vector3.zero;
+
+            //calculate friction
+            //Vector3 KineticFrictionForce = NetForce;
+            //KineticFrictionForce.y = 0;
+            //KineticFrictionForce.Normalize();
+            //KineticFrictionForce *= (-1f)*(NormalForce * KineticFrictionCoeff).magnitude ;
+
+            //InstantaneousVelocity.y = 0;
         }
         else 
         {
@@ -115,8 +120,8 @@ public class Movement : MonoBehaviour
 
         heightRay.direction = new Vector3(0f,-1f,0f);
 
-        Physics.Raycast(heightRay, out heightHit, 100f, LayerMask.GetMask("shootable"));
-        return heightHit.distance < 2;
+        Physics.Raycast(heightRay, out heightHit, float.MaxValue, LayerMask.GetMask("Shootable"));
+        return heightHit.distance < 0.5;
     }
 }
 

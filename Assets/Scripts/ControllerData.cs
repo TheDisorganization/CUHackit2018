@@ -65,11 +65,7 @@ public class ControllerData : MonoBehaviour
             IsConnected = false;
             WebLine.enabled = false;
         }
-        if (Controller.GetHairTriggerDown())
-            TriggerPressed = true;
-        if (Controller.GetHairTriggerUp())
-            TriggerPressed = false;
-
+        TriggerPressed = Controller.GetHairTrigger();
 	}
 
     void ShootWeb()
