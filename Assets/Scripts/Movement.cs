@@ -43,61 +43,80 @@ public class Movement : MonoBehaviour
             RightController.ShowWebLine();
     }
 
-   
+
+    Vector3 NonClimbingPos;
 
     void FixedUpdate()
     {
-        Vector3 NetForce = PlayerMass * GravityAccel;
-   
-        if (LeftController.IsConnected && !LeftController.IsGrabbing)
-            NetForce += (LeftController.ConnectionPoint - LeftController.WebSpoutPoint).normalized * WebPullForce;
-
-        if (RightController.IsConnected && !RightController.IsGrabbing)
-            NetForce += (RightController.ConnectionPoint - RightController.WebSpoutPoint).normalized * WebPullForce;
-
-        if (playerStanding())
+        if (LeftController.IsClimbing)
         {
-            //calculate normal force
-            Vector3 NormalForce = -PlayerMass * GravityAccel;
 
-            NetForce += NormalForce;
-
-
-
-            if (!RightController.IsConnected && !LeftController.IsConnected)
-                InstantaneousVelocity = Vector3.zero;
-
-            //calculate friction
-            //Vector3 KineticFrictionForce = NetForce;
-            //KineticFrictionForce.y = 0;
-            //KineticFrictionForce.Normalize();
-            //KineticFrictionForce *= (-1f)*(NormalForce * KineticFrictionCoeff).magnitude ;
-
-            //InstantaneousVelocity.y = 0;
+            Vector3 positionDelta = LeftController.ClimbingStartPosition - LeftController.CurrentPosition ;
+            positionDelta.x = 0f;
+            positionDelta.z = 0f;
+            transform.position = NonClimbingPos + positionDelta;
+            InstantaneousVelocity = Vector3.zero;
         }
-        else 
+        else if (RightController.IsClimbing)
         {
-            //calculate drag
-            NetForce -=
-                AirDensity *
-                DragCoeff * 
-                CrossSectionalArea * 
-                .5f * 
-                Mathf.Pow(InstantaneousVelocity.magnitude, 2f) * 
-                InstantaneousVelocity.normalized;
+            Vector3 positionDelta = RightController.ClimbingStartPosition - RightController.CurrentPosition;
+            positionDelta.x = 0f;
+            positionDelta.z = 0f;
+            transform.position = NonClimbingPos + positionDelta;
+            InstantaneousVelocity = Vector3.zero;
         }
+        else
+        {
+            Vector3 NetForce = PlayerMass * GravityAccel;
 
-        InstantaneousVelocity += (NetForce / PlayerMass) * Time.fixedDeltaTime; 
+            if (LeftController.IsConnected && !LeftController.IsGrabbing)
+                NetForce += (LeftController.ConnectionPoint - LeftController.WebSpoutPoint).normalized * WebPullForce;
 
-        Vector3 newPosition = transform.position + InstantaneousVelocity * Time.fixedDeltaTime;
+            if (RightController.IsConnected && !RightController.IsGrabbing)
+                NetForce += (RightController.ConnectionPoint - RightController.WebSpoutPoint).normalized * WebPullForce;
+
+            if (playerStanding())
+            {
+                //calculate normal force
+                Vector3 NormalForce = -PlayerMass * GravityAccel;
+
+                NetForce += NormalForce;
 
 
-        if (newPosition.y < PlayerHeight)
-            newPosition.y = PlayerHeight;
 
-        transform.position = newPosition;
+                if (!RightController.IsConnected && !LeftController.IsConnected)
+                    InstantaneousVelocity = Vector3.zero;
+
+                //calculate friction
+                //Vector3 KineticFrictionForce = NetForce;
+                //KineticFrictionForce.y = 0;
+                //KineticFrictionForce.Normalize();
+                //KineticFrictionForce *= (-1f)*(NormalForce * KineticFrictionCoeff).magnitude ;
+
+                //InstantaneousVelocity.y = 0;
+            }
+            else
+            {
+                //calculate drag
+                NetForce -=
+                    AirDensity *
+                    DragCoeff *
+                    CrossSectionalArea *
+                    .5f *
+                    Mathf.Pow(InstantaneousVelocity.magnitude, 2f) *
+                    InstantaneousVelocity.normalized;
+            }
+
+            InstantaneousVelocity += (NetForce / PlayerMass) * Time.fixedDeltaTime;
+            Vector3 newPosition = transform.position + InstantaneousVelocity * Time.fixedDeltaTime;
 
 
+            if (newPosition.y < PlayerHeight)
+                newPosition.y = PlayerHeight;
+
+            transform.position = newPosition;
+            NonClimbingPos = transform.position;
+        }
 
         //if (LeftController.IsConnected && LeftController.IsGrabbing)
         //{
@@ -121,7 +140,7 @@ public class Movement : MonoBehaviour
         InstantaneousVelocity = Vector3.Reflect(InstantaneousVelocity, collision.contacts[0].normal)*BounceDampening;
 
         //might remove this (less elastic collisions)
-        transform.position += (transform.position - collision.contacts[0].point).normalized * (0.005f);
+        //transform.position += (transform.position - collision.contacts[0].point).normalized * (0.005f);
     }
 
     void updateColliderPosition()
