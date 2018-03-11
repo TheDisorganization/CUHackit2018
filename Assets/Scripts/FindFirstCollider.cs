@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindFirstCollider : MonoBehaviour {
+public class FindFirstCollider : MonoBehaviour
+{
 
     public float range = 100f;
 
@@ -27,23 +28,24 @@ public class FindFirstCollider : MonoBehaviour {
         webLine = GetComponent<LineRenderer>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
-    
+
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
-		if(Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) //initial press frame
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) //initial press frame
         {
             ShootWeb();
         }
-        else if(Controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
+        else if (Controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
         {
             webLine.SetPosition(0, rayOriginObject.transform.position);
+
         }
         else if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
         {
             DisableWebEffects();
         }
-	}
+    }
 
     void ShootWeb()
     {
@@ -57,7 +59,7 @@ public class FindFirstCollider : MonoBehaviour {
         webRay.origin = rayOriginObject.transform.position;
         //webRay.origin = transform.position+ transform.forward* scalingFactor;
 
-  
+
         webRay.direction = -transform.up;
 
         if (Physics.Raycast(webRay, out webHit, range, shootableMask))
@@ -72,7 +74,7 @@ public class FindFirstCollider : MonoBehaviour {
 
     public void DisableWebEffects()
     {
-        if(webLine)
+        if (webLine)
             webLine.enabled = false;
     }
 }
