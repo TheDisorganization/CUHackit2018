@@ -49,10 +49,10 @@ public class Movement : MonoBehaviour
     {
         Vector3 NetForce = PlayerMass * GravityAccel;
    
-        if (LeftController.IsConnected)
+        if (LeftController.IsConnected && LeftController.TriggerPressed)
             NetForce += (LeftController.ConnectionPoint - LeftController.WebSpoutPoint).normalized * WebPullForce;
 
-        if (RightController.IsConnected)
+        if (RightController.IsConnected && RightController.TriggerPressed)
             NetForce += (RightController.ConnectionPoint - RightController.WebSpoutPoint).normalized * WebPullForce;
 
         if (playerStanding())

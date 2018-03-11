@@ -30,6 +30,7 @@ public class ControllerData : MonoBehaviour
 
     public float WebRange = 100f;
     public GameObject WebSpout;
+    public bool TriggerPressed = false;
 
     private Vector3 _ConnectionPoint;
     private bool _IsConnected;
@@ -64,6 +65,11 @@ public class ControllerData : MonoBehaviour
             IsConnected = false;
             WebLine.enabled = false;
         }
+        if (Controller.GetHairTriggerDown())
+            TriggerPressed = true;
+        if (Controller.GetHairTriggerUp())
+            TriggerPressed = false;
+
 	}
 
     void ShootWeb()
