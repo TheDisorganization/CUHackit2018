@@ -49,10 +49,10 @@ public class Movement : MonoBehaviour
     {
         Vector3 NetForce = PlayerMass * GravityAccel;
    
-        if (LeftController.IsConnected && !LeftController.TriggerPressed)
+        if (LeftController.IsConnected && !LeftController.IsGrabbing)
             NetForce += (LeftController.ConnectionPoint - LeftController.WebSpoutPoint).normalized * WebPullForce;
 
-        if (RightController.IsConnected && !RightController.TriggerPressed)
+        if (RightController.IsConnected && !RightController.IsGrabbing)
             NetForce += (RightController.ConnectionPoint - RightController.WebSpoutPoint).normalized * WebPullForce;
 
         if (playerStanding())
@@ -91,10 +91,28 @@ public class Movement : MonoBehaviour
 
         Vector3 newPosition = transform.position + InstantaneousVelocity * Time.fixedDeltaTime;
 
+
         if (newPosition.y < PlayerHeight)
             newPosition.y = PlayerHeight;
 
         transform.position = newPosition;
+
+
+
+        //if (LeftController.IsConnected && LeftController.IsGrabbing)
+        //{
+        //    Vector3 WebLength = (LeftController.ConnectionPoint - LeftController.WebSpoutPoint);
+        //    if (WebLength.magnitude > LeftController.ConnectionLength)
+        //        transform.position = LeftController.ConnectionPoint - WebLength.normalized * LeftController.ConnectionLength;
+        //}
+
+        //if (RightController.IsConnected && RightController.IsGrabbing)
+        //{
+        //    Vector3 WebLength = (RightController.ConnectionPoint - RightController.WebSpoutPoint);
+        //    if (WebLength.magnitude > RightController.ConnectionLength)
+        //        transform.position = RightController.ConnectionPoint - WebLength.normalized * RightController.ConnectionLength;
+        //}
+
         updateColliderPosition();
     }
 

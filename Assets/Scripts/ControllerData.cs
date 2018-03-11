@@ -30,10 +30,21 @@ public class ControllerData : MonoBehaviour
 
     public float WebRange = 100f;
     public GameObject WebSpout;
-    public bool TriggerPressed = false;
+    public bool IsGrabbing
+    {
+        get { return _IsGrabbing;  }
+        private set { _IsGrabbing = value; }
+    }
+    public float ConnectionLength
+    {
+        get { return _ConnectionLength; }
+        private set { _ConnectionLength = value; }
+    }
 
     private Vector3 _ConnectionPoint;
+    private float _ConnectionLength;
     private bool _IsConnected;
+    private bool _IsGrabbing;
 
     private int ShootableMask;
     private LineRenderer WebLine;
@@ -48,7 +59,10 @@ public class ControllerData : MonoBehaviour
         ShootableMask = LayerMask.GetMask("Shootable");
         WebLine = GetComponent<LineRenderer>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+
         IsConnected = false;
+        IsGrabbing = false;
+        ConnectionLength = 0f;
         ConnectionPoint = Vector3.zero;
     }
 
@@ -63,10 +77,32 @@ public class ControllerData : MonoBehaviour
         {
             //remove hit
             IsConnected = false;
+            //IsGrabbing = false;
             WebLine.enabled = false;
         }
-        TriggerPressed = Controller.GetHairTrigger();
-	}
+        //if (IsConnected && Controller.GetHairTrigger())
+        //{
+        //    GrabWeb();
+
+        //}
+        //else
+        //{
+        //    IsGrabbing = false;
+        //}
+        IsGrabbing = Controller.GetHairTrigger();
+
+    }
+
+    void GrabWeb()
+    {
+        //if we just grabbed the web
+        if (IsGrabbing == false)
+        {
+            IsGrabbing = true;
+
+            ConnectionLength = (ConnectionPoint - WebSpoutPoint).magnitude;
+        }
+    }
 
     void ShootWeb()
     {
