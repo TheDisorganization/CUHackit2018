@@ -8,17 +8,21 @@ public class Movement : MonoBehaviour
     public ControllerData LeftController, RightController;
     public float WebPullSpeed = 5f;
     public float Gravity = -9.8f;
+    public float BounceDampening = 0.5f;
+
     public float DragCoeff;
 
     private float PlayerHeight;
     private Vector3 GravityAccel;
     private Vector3 NetVelocity;
+    private CapsuleCollider PlayerCollider;
 
     void Awake()
     {
         NetVelocity = Vector3.zero;
         GravityAccel = new Vector3(0f, Gravity, 0f);
         PlayerHeight = Head.transform.position.y;
+        PlayerCollider = GetComponentInChildren<CapsuleCollider>();
     }
 
     private void Update()
@@ -31,18 +35,13 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (NetVelocity == Vector3.zero)
-        {
-            Debug.Log("AAAAA");
-        }
-
         if (LeftController.IsConnected)
             NetVelocity += (LeftController.ConnectionPoint - LeftController.WebSpoutPoint).normalized * WebPullSpeed;
 
         if (RightController.IsConnected)
             NetVelocity += (RightController.ConnectionPoint - RightController.WebSpoutPoint).normalized * WebPullSpeed;
 
-        if (!LeftController.IsConnected && !RightController.IsConnected)
+        if (!LeftController.IsConnected && !RightController.IsConnected && transform.position.y > PlayerHeight+1)
             NetVelocity += GravityAccel * Time.fixedDeltaTime;
 
         Vector3 newPosition = transform.position + NetVelocity * Time.fixedDeltaTime;
@@ -51,6 +50,25 @@ public class Movement : MonoBehaviour
             newPosition.y = PlayerHeight;
 
         transform.position = newPosition;
+        updateColliderPosition();
     }
 
+    public void OnCollision(Collision collision)
+    {
+        NetVelocity = Vector3.Reflect(NetVelocity, collision.contacts[0].normal)*BounceDampening;
+    }
+
+    void updateColliderPosition()
+    {
+        Vector3 colliderPos = Head.transform.position;
+        colliderPos.y -= PlayerHeight - 1;
+        PlayerCollider.transform.position = colliderPos;
+
+    }
+
+    private bool playerStanding()
+    {
+        return transform.position.y <= PlayerHeight; 
+
+    }
 }
