@@ -60,7 +60,7 @@ public class Movement : MonoBehaviour
             //calculate normal force
             Vector3 NormalForce = -PlayerMass * GravityAccel;
 
-            NetForce -= NormalForce;
+            NetForce += NormalForce;
 
             //calculate friction
             Vector3 KineticFrictionForce = NetForce;
@@ -107,8 +107,16 @@ public class Movement : MonoBehaviour
 
     private bool playerStanding()
     {
-        return Head.transform.position.y <= PlayerHeight; 
+        //return Head.transform.position.y <= PlayerHeight; 
+        Ray heightRay = new Ray();
+        RaycastHit heightHit;
 
+        heightRay.origin = transform.position;
+
+        heightRay.direction = new Vector3(0f,-1f,0f);
+
+        Physics.Raycast(heightRay, out heightHit, 100f, LayerMask.GetMask("shootable"));
+        return heightHit.distance < 2;
     }
 }
 
