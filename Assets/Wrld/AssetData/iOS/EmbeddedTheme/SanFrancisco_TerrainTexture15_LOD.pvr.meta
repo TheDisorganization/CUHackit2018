@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: c44ff7dd557c14b14a748b0877004bcb
 timeCreated: 1520880096
+=======
+guid: 841b0110e8db5ec4094fe10bfe9ed78c
+timeCreated: 1520889115
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
 licenseType: Free
 IHVImageFormatImporter:
   externalObjects: {}
