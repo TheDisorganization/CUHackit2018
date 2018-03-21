@@ -4,7 +4,11 @@ using Wrld.Materials;
 using Wrld.Streaming;
 using Wrld.Space;
 using Wrld.Common.Camera;
+<<<<<<< HEAD
 using Wrld.MapCamera;
+=======
+using Wrld.MapCamera;
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
 using Wrld.Resources.Buildings;
 
 namespace Wrld
@@ -63,10 +67,17 @@ namespace Wrld
         }
 
         public void SetOriginPoint(LatLongAltitude lla)
+<<<<<<< HEAD
         {
             if (m_coordinateSystem == CoordinateSystem.ECEF)
             {
                 m_cameraController.MoveTo(lla.GetLatLong());
+=======
+        {
+            if (m_coordinateSystem == CoordinateSystem.ECEF)
+            {
+                m_cameraController.MoveTo(lla.GetLatLong());
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
             }
             else
             {
@@ -198,9 +209,15 @@ namespace Wrld
             UpdateTransforms();
         }
 
+<<<<<<< HEAD
         public void UpdateCollision(ConfigParams.CollisionConfig collisions)
         {
             m_nativePluginRunner.UpdateCollisions(collisions);
+=======
+        public void UpdateCollision(ConfigParams.CollisionConfig collisions)
+        {
+            m_nativePluginRunner.UpdateCollisions(collisions);
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         }
 
         internal void SetEnabled(bool enabled)

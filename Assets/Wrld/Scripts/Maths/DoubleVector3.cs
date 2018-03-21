@@ -4,14 +4,22 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 
 namespace Wrld.Common.Maths
+<<<<<<< HEAD
 {
     /// <summary>
     /// Representation of 3 component (3D) vector and points in double precision required for dealing with very large scale precision.
     /// </summary>
+=======
+{
+    /// <summary>
+    /// Representation of 3 component (3D) vector and points in double precision required for dealing with very large scale precision.
+    /// </summary>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
     [DebuggerDisplay("{x}, {y}, {z}")]
     [StructLayout(LayoutKind.Sequential)]
     public struct DoubleVector3 : IEquatable<DoubleVector3>
     {
+<<<<<<< HEAD
         private const string StringFormat = "{0},{1},{2}";
 
         /// <summary>
@@ -61,6 +69,57 @@ namespace Wrld.Common.Maths
         /// <param name="X">x axis</param>
         /// <param name="Y">y axis</param>
         /// <param name="Z">z axis</param>
+=======
+        private const string StringFormat = "{0},{1},{2}";
+
+        /// <summary>
+        /// Represents a zero vector with all 3 axes set to 0.0
+        /// </summary>
+        public static readonly DoubleVector3 zero = new DoubleVector3(0.0, 0.0, 0.0);
+
+        /// <summary>
+        /// Represents a vector with all axes set to 1.0
+        /// </summary>
+        public static readonly DoubleVector3 one = new DoubleVector3(1.0, 1.0, 1.0);
+
+        /// <summary>
+        /// x component of the vector, points right
+        /// </summary>
+        public double x;
+
+        /// <summary>
+        /// y component of the vector, points up 
+        /// </summary>
+        public double y;
+
+        /// <summary>
+        /// z component of the vector, points forward
+        /// </summary>
+        public double z;
+
+        /// <summary>
+        /// Calculates and returns the vector magnitude
+        /// </summary>
+        public double magnitude { get { return Math.Sqrt(sqrMagnitude); } }
+
+        /// <summary>
+        /// Calculates and returns the square of the magnitude.
+        /// Does not require calculating the square root.
+        /// </summary>
+        public double sqrMagnitude { get { return Dot(this, this); } }
+
+        /// <summary>
+        /// Returns the normalized version of the vector. Does not store this value.
+        /// </summary>
+        public DoubleVector3 normalized { get { return this / magnitude; } }
+
+        /// <summary>
+        /// Initializes the vector with its 3 main component values
+        /// </summary>
+        /// <param name="X">x axis</param>
+        /// <param name="Y">y axis</param>
+        /// <param name="Z">z axis</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public DoubleVector3(double X, double Y, double Z)
         {
             x = X;
@@ -68,14 +127,22 @@ namespace Wrld.Common.Maths
             z = Z;
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Conjunction comparison with each respective element
         /// This comparison does not use epsilon approximation
         /// </summary>
+=======
+        /// <summary>
+        /// Conjunction comparison with each respective element
+        /// This comparison does not use epsilon approximation
+        /// </summary>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         /// <param name="other">Vector to compare against</param>
         public bool Equals(DoubleVector3 other)
         {
             return (x == other.x) && (y == other.y) && (z == other.z);
+<<<<<<< HEAD
         }
 
         /// <summary>
@@ -84,6 +151,16 @@ namespace Wrld.Common.Maths
         /// This comparison does not use epsilon approximation
         /// </summary>
         /// <param name="other">Vector to compare against</param>
+=======
+        }
+
+        /// <summary>
+        /// Conjunction comparison with each respective element.
+        /// Only succeeds if object is of the same type.
+        /// This comparison does not use epsilon approximation
+        /// </summary>
+        /// <param name="other">Vector to compare against</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public override bool Equals(object other)
         {
             bool flag = false;
@@ -93,6 +170,7 @@ namespace Wrld.Common.Maths
                 flag = Equals((DoubleVector3)other);
             }
             return flag;
+<<<<<<< HEAD
         }
 
         /// <summary>
@@ -106,6 +184,21 @@ namespace Wrld.Common.Maths
         /// <summary>
         /// Returns a string representatin of the vector of the form x, y, z
         /// </summary>
+=======
+        }
+
+        /// <summary>
+        /// Returns the combined hash of all three internal x-y-z axes
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return (x.GetHashCode() << 1) ^ y.GetHashCode() ^ (z.GetHashCode() >> 1);
+        }
+
+        /// <summary>
+        /// Returns a string representatin of the vector of the form x, y, z
+        /// </summary>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public override string ToString()
         {
             return string.Format(StringFormat, x, y, z);
@@ -154,6 +247,7 @@ namespace Wrld.Common.Maths
         public static bool operator !=(DoubleVector3 _lhs, DoubleVector3 _rhs)
         {
             return (_lhs.x != _rhs.x) || (_lhs.y != _rhs.y) || (_lhs.z != _rhs.z);
+<<<<<<< HEAD
         }
 
         /// <summary>
@@ -162,20 +256,39 @@ namespace Wrld.Common.Maths
         /// </summary>
         /// <param name="a">First vector</param>
         /// <param name="b">Secpmd vectpr</param>
+=======
+        }
+
+        /// <summary>
+        /// Constructs and returns a new vector with the minimum of each component
+        /// Eg: newX = Min(a.x, b.x)
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Secpmd vectpr</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public static DoubleVector3 Min(DoubleVector3 a, DoubleVector3 b)
         {
             return new DoubleVector3 { x = Math.Min(a.x, b.x), y = Math.Min(a.y, b.y), z = Math.Min(a.z, b.z) };
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Constructs and returns a new vector with the maximum of each component
         /// Eg: newX = Max(a.x, b.x)
         /// </summary>
         /// <param name="a">First vector</param>
+=======
+        /// <summary>
+        /// Constructs and returns a new vector with the maximum of each component
+        /// Eg: newX = Max(a.x, b.x)
+        /// </summary>
+        /// <param name="a">First vector</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         /// <param name="b">Second vector</param>
         public static DoubleVector3 Max(DoubleVector3 a, DoubleVector3 b)
         {
             return new DoubleVector3 { x = Math.Max(a.x, b.x), y = Math.Max(a.y, b.y), z = Math.Max(a.z, b.z) };
+<<<<<<< HEAD
         }
 
         /// <summary>
@@ -183,15 +296,31 @@ namespace Wrld.Common.Maths
         /// </summary>
         /// <param name="a">First vector</param>
         /// <param name="b">Second vector</param>
+=======
+        }
+
+        /// <summary>
+        /// Calculates and returns the dot product of the two vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public static double Dot(DoubleVector3 a, DoubleVector3 b)
         {
             return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Calculates and returns the cross product of the two vectors
         /// </summary>
         /// <param name="a">First vector</param>
+=======
+        /// <summary>
+        /// Calculates and returns the cross product of the two vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         /// <param name="b">Second vector</param>
         public static DoubleVector3 Cross(DoubleVector3 a, DoubleVector3 b)
         {
@@ -201,12 +330,21 @@ namespace Wrld.Common.Maths
                 (a.x * b.y) - (a.y * b.x));
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Calcualates and returns a new interpolated vector based on the time parameter
         /// </summary>
         /// <param name="from">Starting vector position</param>
         /// <param name="to">Ending vector position</param>
         /// <param name="time">Current time to interpolate from</param>
+=======
+        /// <summary>
+        /// Calcualates and returns a new interpolated vector based on the time parameter
+        /// </summary>
+        /// <param name="from">Starting vector position</param>
+        /// <param name="to">Ending vector position</param>
+        /// <param name="time">Current time to interpolate from</param>
+>>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         /// <returns></returns>
         public static DoubleVector3 Lerp(DoubleVector3 from, DoubleVector3 to, float time)
         {
