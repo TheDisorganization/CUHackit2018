@@ -2,7 +2,6 @@
 using System;
 
 namespace Wrld.Common.Maths
-<<<<<<< HEAD
 {
     /// <summary>
     /// Static methods to convert from and to lat-long-alt and ECEF world positions.
@@ -18,23 +17,6 @@ namespace Wrld.Common.Maths
         /// <param name="latitudeInRadians">Latitude in radians</param>
         /// <param name="longitudeInRadians">Longitude in radians</param>
         /// <param name="altitudeInMeters">Altitude in meters</param>
-=======
-{
-    /// <summary>
-    /// Static methods to convert from and to lat-long-alt and ECEF world positions.
-    /// These helpers are not associated with the types that encapsulate these and instead deal with individual / simple data.
-    /// </summary>
-    public class EcefHelpers
-    {
-        const double EarthRadius = 6378100.0;
-
-        /// <summary>
-        /// Converts latitude, longitude and altitude into a world ECEF position.
-        /// </summary>
-        /// <param name="latitudeInRadians">Latitude in radians</param>
-        /// <param name="longitudeInRadians">Longitude in radians</param>
-        /// <param name="altitudeInMeters">Altitude in meters</param>
->>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public static DoubleVector3 LatLongAltToEcefDegrees(double latitudeInRadians, double longitudeInRadians, double altitudeInMeters)
         {
             latitudeInRadians *= Math.PI / 180.0;
@@ -50,21 +32,12 @@ namespace Wrld.Common.Maths
             return new DoubleVector3(-y, z, x);
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Converts an ECEF world position and a heading (direction you are facing) into a tangent basis
         /// at that point, which can further be used to make calculations in that tangent space.
         /// </summary>
         /// <param name="worldPointEcef">World position in the ECEF system</param>
         /// <param name="absoluteHeadingDegrees">Absolute heading in degrees</param>
-=======
-        /// <summary>
-        /// Converts an ECEF world position and a heading (direction you are facing) into a tangent basis
-        /// at that point, which can further be used to make calculations in that tangent space.
-        /// </summary>
-        /// <param name="worldPointEcef">World position in the ECEF system</param>
-        /// <param name="absoluteHeadingDegrees">Absolute heading in degrees</param>
->>>>>>> 93976baab53246a27158b03be0d07d7b8897ef5e
         public static EcefTangentBasis EcefTangentBasisFromPointAndHeading(DoubleVector3 worldPointEcef, float absoluteHeadingDegrees)
         {
             var heading = new Vector3(0.0f, 1.0f, 0.0f);
