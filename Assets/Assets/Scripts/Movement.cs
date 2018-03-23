@@ -11,10 +11,10 @@ public class Movement : MonoBehaviour
     public float BounceDampening = 0.5f;
 
 
-    private float PlayerHeight;
-    //{
-     //   get { return Head.transform.position.y - transform.position.y; }
-    //}
+    private float PlayerHeight
+    {
+        get { return Head.transform.position.y - transform.position.y; }
+    }
     private Vector3 GravityAccel;
     private Vector3 NetVelocity;
 
@@ -35,7 +35,7 @@ public class Movement : MonoBehaviour
     {
         NetVelocity = Vector3.zero;
         GravityAccel = new Vector3(0f, Gravity, 0f);
-        PlayerHeight = Head.transform.position.y;
+        //PlayerHeight = Head.transform.position.y;
         PlayerCollider = GetComponentInChildren<CapsuleCollider>();
 
         InstantaneousVelocity = Vector3.zero;
